@@ -1,0 +1,12 @@
+{
+    "name": "candidates_portal",
+    "version": "0.0.1",
+    "main": "./base.js",
+    "dependencies": {
+        "angular": "latest",
+        "angular-route":"latest",
+        "jQuery": "latest",
+        "foundation": "latest",
+        "foundation-icon-fonts": "latest"
+    }
+}
