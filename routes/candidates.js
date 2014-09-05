@@ -11,9 +11,9 @@ var candidateSchema = mongoose.Schema({
 
 var Candidate = mongoose.model('Candidate', candidateSchema);
 
-router.get('/', function (req, res) {
+router.get('/all', function (req, res) {
     Candidate.find({}, '_id fname email', function(err,docs){
-        console.log(docs);
+        //console.log(docs);
         res.json(docs);
     });
 });
@@ -39,8 +39,9 @@ router.post('/', function (req, res) {
 
 router.get('/:id', function(req,res){
     var i = req.params.id;
-    /*console.log(req.params.id);*/
-    Candidate.find({'movieid': i}, 'id fname email', function(err,docs){
+    console.log(req.params.id);
+    Candidate.find({'_id': ObjectId(i)}, 'id fname email', function(err,docs){
+        console.log(docs);
         res.json(docs);
     });
 });

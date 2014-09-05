@@ -1,0 +1,62 @@
+<div>
+    <nav class="top-bar" data-topbar role="navigation">
+        <ul class="title-area">
+            <li class="name">
+                <h1><a href="#">My Site</a></h1>
+            </li>
+            <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+            <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+        </ul>
+
+        <section class="top-bar-section">
+            <!-- Right Nav Section -->
+            <ul class="right">
+                <li ><a href="#/candidate/all">Show All</a></li>
+                <li ><a href="#/candidate">Create</a></li>
+                <li class="active"><a href="#/candidate_info">Find</a></li>
+                <li ><a href="#">Modify</a></li>
+                <li><a href="#">Delete</a></li>
+            </ul>
+        </section>
+    </nav>
+
+    <div id="pnl" class="panel callout radius">
+        <h5>Welcome to the GLL Candidates Portal</h5>
+        <p>{{welcome}}</p>
+    </div>
+
+    <div>
+        <div class="large-12 columns text-center">
+            <h2 class="center">Create An Entry</h2>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="large-12 columns">
+            <table id="tbl">
+                <thead>
+                <tr>
+                    <th width="40"></th>
+                    <th width="250">ID</th>
+                    <th width="250">Name</th>
+                    <th width="350">Email</th>
+                    <th width="40"></th>
+                </tr>
+                </thead>
+                <tbody  id="tbody" ng-repeat="candidate in candidateObj">
+                <tr>
+                    <td><div><span><i class="fi-page-edit"></i></span></div></td>
+                    <td>{{candidate._id}}</td>
+                    <td>{{candidate.fname}}</td>
+                    <td>{{candidate.email}}</td>
+                    <td><div><span><i class="fi-x"></i></span></div></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</div>

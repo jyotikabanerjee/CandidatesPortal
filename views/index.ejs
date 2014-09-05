@@ -10,22 +10,45 @@
     <script src="/angular/angular.js"></script>
     <script src="/angular-route/angular-route.js"></script>
     <script>
-        var candidateModule = angular.module('candidateApp', []);
+        var  candidateMainApp = angular.module('candidateApp', ['ngRoute','candidateCtrlApp']);
+        candidateMainApp.config(['$routeProvider',function($routeProvider){
+            $routeProvider.when('/',{
+                templateUrl:'/landing.html',
+                controller: 'CandidateCtrl'
+            }).when('/candidate',{
+                templateUrl:'/createCandidate.html',
+                controller: 'CreateCandidateCtrl'
+            }).when('/candidate/all',{
+                templateUrl:'/showAllCandidates.html',
+                controller:'GetAllCandidatesCtrl'
+            }).when('/candidate/:id',{
+                templateUrl:'/candidate_info',
+                controller:'GetCandidateCtrl'
+            })
+        }]);
+    </script>
+    <script>
+        var candidateModule = angular.module('candidateCtrlApp', []);
         candidateModule.controller("CandidateCtrl" , function($scope){
             $scope.welcome = "It's a little ostentatious, but useful for important content. Lol.";
         });
 
-          /*  candidateModule.controller("DummyCtrl", ['$scope', '$http', function($scope, $http){
-
-            $http.get("http://localhost:3000/candidates").success(function(data){
+      candidateModule.controller("GetCandidateCtrl", ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams){
+                  console.log($routeParams.id);
+                  var url = 'http://localhost:3000/candidates/'+$routeParams.id;
+                  $scope.candidateObj = {};
+            $http.get(url).success(function(data){
                 console.log(data);
+                if(data){
+                    $scope.candidateObj = data;
+                }
             }).error(function(){
                 console.log("Error!!");
             });
 
-        }]);*/
+        }]);
 
-        candidateModule.controller('CreateCandidateCtrl',['$scope','$http', function($scope,$http){
+        candidateModule.controller('CreateCandidateCtrl',['$scope', 'candidateOps', function($scope,candidateOps){
 
             $scope.email = "";
             $scope.fname = "";
@@ -37,37 +60,77 @@
                     fname: $scope.fname,
                     email: $scope.email
                 };
-                $http.post('http://localhost:3000/candidates', obj).success(function (created_candidate) {
+                candidateOps.createCandidate(obj).success(function (created_candidate) {
                     $scope.all_candidates.push(created_candidate);
                     // $scope.currentCandidate = {};
                 });
             }
         }]);
 
-        candidateModule.controller('GetAllCandidatesCtrl', ['$scope','$http' ,function($scope, $http){
+        candidateModule.controller('GetAllCandidatesCtrl', ['$scope', 'candidateOps', function($scope, candidateOps ){
             $scope.all_candidates = "";
-            var url = 'http://localhost:3000/candidates';
-            $http.get(url).success(function(data){
-                console.log(data);
+            //var url = 'http://localhost:3000/candidates/all';
+            candidateOps.getAllCandidates().success(function(data){
+                //console.log(data);
                 $scope.all_candidates = data;
             }).error(function(){
                 console.log("ERROR");
             });
         }]);
+
+
+        candidateModule.factory('candidateOps',['$http', function($http){
+
+            return {
+                _candidate: {},
+                setDetails: function(obj){
+                    if(typeof obj._id === 'undefined'){
+
+                    }
+                    else{
+
+                    }
+                },
+
+                createCandidate: function(obj){
+                    return  $http.post('http://localhost:3000/candidates', obj);
+                },
+
+                updateCandidate: function(obj){
+
+                },
+
+                getAllCandidates: function(){
+                    return $http.get('http://localhost:3000/candidates/all');
+                },
+
+                getCandidateById: function(id){
+
+                },
+
+                deleteCandidate: function(id){
+
+                }
+            }
+
+        }]);
     </script>
   </head>
-  <body ng-controller="CandidateCtrl">
-  <nav class="top-bar" data-topbar role="navigation">
+  <body> <!--ng-controller="CreateCandidateCtrl"-->
+  <div ng-view>
+
+  </div>
+<!--  <nav class="top-bar" data-topbar role="navigation">
       <ul class="title-area">
           <li class="name">
               <h1><a href="#">My Site</a></h1>
           </li>
-          <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+          &lt;!&ndash; Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone &ndash;&gt;
           <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
       </ul>
 
       <section class="top-bar-section">
-          <!-- Right Nav Section -->
+          &lt;!&ndash; Right Nav Section &ndash;&gt;
           <ul class="right">
               <li ><a href="#">Show All</a></li>
               <li ><a href="#">Create</a></li>
@@ -83,7 +146,7 @@
       <p>{{welcome}}</p>
   </div>
 
-<div>
+    <div>
     <div class="large-12 columns text-center">
     <h2 class="center">Create An Entry</h2>
     </div>
@@ -115,7 +178,7 @@
 
 
 <div class="row">
-<div class="large-12 columns">
+<div class="small-6 large-12 columns">
       <table id="tbl">
           <thead>
           <tr>
@@ -138,7 +201,7 @@
           </tbody>
       </table>
   </div>
-</div>
+</div>-->
 
   <script src="foundation/js/vendor/jquery.js"></script>
   <script src="foundation/js/foundation.min.js"></script>
