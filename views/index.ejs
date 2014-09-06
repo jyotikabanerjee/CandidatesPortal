@@ -21,10 +21,15 @@
             }).when('/candidate/all',{
                 templateUrl:'/showAllCandidates.html',
                 controller:'GetAllCandidatesCtrl'
+            }).when('/find',{
+                templateUrl:'/find_candidate_info.html',
+                controller:'FindCandidateCtrl'
             }).when('/candidate/:id',{
-                templateUrl:'/candidate_info',
+                templateUrl:'/candidate_info.html',
                 controller:'GetCandidateCtrl'
-            })
+            }).otherwise({
+                redirectTo: '/'
+            });
         }]);
     </script>
     <script>
@@ -33,8 +38,28 @@
             $scope.welcome = "It's a little ostentatious, but useful for important content. Lol.";
         });
 
+
+        candidateModule.controller("FindCandidateCtrl", ['$scope', '$window', function($scope, $window){
+            //console.log($routeParams);
+           $scope.userid = '';
+
+           $scope.findCandidate = function(event){
+               console.log($scope.userid);
+               console.log(event);
+               event.preventDefault();
+               if($scope.userid === ''){
+
+               }else{
+                    $window.location.href =  '#/candidate/'+$scope.userid;
+               }
+
+
+           }
+
+        }]);
+
       candidateModule.controller("GetCandidateCtrl", ['$scope', '$http', '$routeParams', function($scope, $http, $routeParams){
-                  console.log($routeParams.id);
+                  console.log($routeParams);
                   var url = 'http://localhost:3000/candidates/'+$routeParams.id;
                   $scope.candidateObj = {};
             $http.get(url).success(function(data){
@@ -48,7 +73,7 @@
 
         }]);
 
-        candidateModule.controller('CreateCandidateCtrl',['$scope', 'candidateOps', function($scope,candidateOps){
+        candidateModule.controller('CreateCandidateCtrl',['$scope', 'candidateOps', function($scope,$http){
 
             $scope.email = "";
             $scope.fname = "";
@@ -60,6 +85,7 @@
                     fname: $scope.fname,
                     email: $scope.email
                 };
+
                 candidateOps.createCandidate(obj).success(function (created_candidate) {
                     $scope.all_candidates.push(created_candidate);
                     // $scope.currentCandidate = {};

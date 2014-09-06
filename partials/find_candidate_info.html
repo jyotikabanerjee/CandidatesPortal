@@ -13,7 +13,7 @@
             <ul class="right">
                 <li ><a href="#/candidate/all">Show All</a></li>
                 <li ><a href="#/candidate">Create</a></li>
-                <li class="active"><a href="#/candidate_info">Find</a></li>
+                <li class="active"><a href="#/find_candidate_info">Find</a></li>
                 <li ><a href="#">Modify</a></li>
                 <li><a href="#">Delete</a></li>
             </ul>
@@ -27,35 +27,21 @@
 
     <div>
         <div class="large-12 columns text-center">
-            <h2 class="center">Candidate Details</h2>
+            <h2 class="center">Find A Candidate by ID</h2>
         </div>
+        <form>
+            <div class="row">
+                <div class="large-12 columns">
+                        <input type="text" placeholder="Enter ID" ng-model="userid" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="large-3 columns">
+                    <button class="button prefix" ng-click="findCandidate($event)">Submit</button>
+                </div>
+            </div>
+
+        </form>
     </div>
-
-
-    <div class="row">
-        <div class="large-12 columns">
-            <table id="tbl">
-                <thead>
-                <tr>
-                    <th width="40"></th>
-                    <th width="250">ID</th>
-                    <th width="250">Name</th>
-                    <th width="350">Email</th>
-                    <th width="40"></th>
-                </tr>
-                </thead>
-                <tbody  id="tbody">
-                <tr>
-                    <td><div><span><i class="fi-page-edit"></i></span></div></td>
-                    <td>{{candidateObj[0]._id}}</td>
-                    <td>{{candidateObj[0].fname}}</td>
-                    <td>{{candidateObj[0].email}}</td>
-                    <td><div><span><i class="fi-x"></i></span></div></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-
 </div>

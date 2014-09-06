@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var mongoose = require('mongoose');
+var ObjectId = mongoose.Types.ObjectId;
 mongoose.connect('mongodb://localhost/test');
 
 var candidateSchema = mongoose.Schema({
@@ -45,6 +46,14 @@ router.get('/:id', function(req,res){
         res.json(docs);
     });
 });
+
+
+/*(function () {
+    Candidate.find({ '_id': ObjectId('53ff5d45b7f12e0814d2c12f')}, 'id fname', function (err, docs) {
+       console.log(docs);
+    });
+}());*/
+
 
 
 module.exports = router;
